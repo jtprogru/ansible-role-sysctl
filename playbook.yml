@@ -1,0 +1,9 @@
+---
+- name: Configure sysctl params for HL
+  hosts: all
+  become: yes
+  gather_facts: yes
+
+  roles:
+    - role: sysctl_tune
+
