@@ -10,9 +10,9 @@
   with_items:
     - { name: "vm.swappiness", value: 5, state: present }
     - { name: "net.ipv4.tcp_max_orphans", value: 65536, state: present }
-    ##Рекомендуется увеличить размер backlog до 1000 или выше (для 10Gb линка можно поставить 30000)
+    ## Рекомендуется увеличить размер backlog до 1000 или выше (для 10Gb линка можно поставить 30000)
     - { name: "net.core.netdev_max_backlog", value: 50000, state: present }
-    ##Переменная определяет максимальное время хранения SYN-запросов в памяти до момента получения третьего, завершающего установление соединения, пакета
+    ## Переменная определяет максимальное время хранения SYN-запросов в памяти до момента получения третьего, завершающего установление соединения, пакета
     - { name: "net.ipv4.tcp_max_syn_backlog", value: 131072, state: present }
     ## Максимальное число сокетов, находящихся в состоянии TIME-WAIT одновременно. 
     ## При превышении этого порога «лишний» сокет разрушается и пишется сообщение в системный журнал. Цель этой переменной – предотвращение простейших разновидностей DoS-атак.
@@ -23,13 +23,13 @@
     - { name: "net.ipv4.tcp_keepalive_time", value: 1800, state: present }
     - { name: "net.ipv4.tcp_keepalive_probes", value: 7, state: present }
     - { name: "net.ipv4.tcp_keepalive_intvl", value: 30, state: present }
-    ##Размер буферов по умолчанию для приема и отправки данных через сокеты
+    ## Размер буферов по умолчанию для приема и отправки данных через сокеты
     - { name: "net.core.wmem_default", value: 4194394, state: present }
     - { name: "net.core.rmem_default", value: 8388608, state: present }
-    ##Увеличиваем максимальный размер памяти отводимой для TCP буферов
+    ## Увеличиваем максимальный размер памяти отводимой для TCP буферов
     - { name: "net.core.wmem_max", value: 33554432, state: present }
     - { name: "net.core.rmem_max", value: 33554432, state: present }
-    ##буфер для TCP и UDP соединений (min, default, max bytes)
+    ## буфер для TCP и UDP соединений (min, default, max bytes)
     - { name: "net.ipv4.tcp_rmem", value: 4096 8388608 16777216, state: present }
     - { name: "net.ipv4.tcp_wmem", value: 4096 4194394 16777216, state: present }
     - { name: "vm.dirty_ratio", value: 60, state: present }
