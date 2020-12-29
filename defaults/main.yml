@@ -2,7 +2,7 @@
 # defaults file for .
 sysctl_antiddos:
   - name: "fs.file-max"
-    value: 2097152
+    value: 5000000
     state: present
   - name: "kernel.core_uses_pid"
     value: 1
@@ -20,10 +20,10 @@ sysctl_antiddos:
     value: "4 4 1 7"
     state: present
   - name: "kernel.shmall"
-    value: 4194304
+    value: 18446744073692774399
     state: present
   - name: "kernel.shmmax"
-    value: 4294967296
+    value: 18446744073692774399
     state: present
   - name: "kernel.sysrq"
     value: 0
@@ -91,14 +91,11 @@ sysctl_antiddos:
   - name: "net.ipv4.neigh.default.gc_thresh3"
     value: 16384
     state: present
-  - name: "net.ipv4.route.flush"
-    value: 1
-    state: present
   - name: "net.ipv4.route.max_size"
     value: 8048576
     state: present
   - name: "net.ipv4.tcp_congestion_control"
-    value: htcp
+    value: cubic
     state: present
   - name: "net.ipv4.tcp_ecn"
     value: 2
@@ -166,9 +163,6 @@ sysctl_antiddos:
   - name: "net.ipv4.tcp_timestamps"
     value: 1
     state: present
-  - name: "net.ipv4.tcp_tw_recycle"
-    value: 1
-    state: present
   - name: "net.ipv4.tcp_tw_reuse"
     value: 1
     state: present
@@ -225,4 +219,10 @@ sysctl_antiddos:
     state: present
   - name: "vm.swappiness"
     value: 5
+    state: present
+  - name: vm.dirty_background_bytes
+    value: 0
+    state: present
+  - name: vm.dirty_bytes
+    value: 0
     state: present
