@@ -1,40 +1,30 @@
-sysctl-tune
-=========
+# jtprog.sysctl
 
-My base sysctl parameters for linux server
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/jtprog/ansible-role-sysctl/CI?label=CI) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/jtprog/ansible-role-sysctl/Release?label=Release) ![GitHub](https://img.shields.io/github/license/jtprog/ansible-role-sysctl)
 
-Requirements
-------------
+Base sysctl parameters for linux server
 
-None
 
-Role Variables
---------------
+## Role Variables
 
 See `defaults`
 
-Dependencies
-------------
+## Example Playbook
 
-None
+```yaml
+---
+- name: Configure sysctl
+  hosts: all
+  become: yes
+  gather_facts: yes
+  roles:
+     - { role: jtprog.sysctl }
+```
 
-Example Playbook
-----------------
+## License
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+[WTFPL](LICENSE.md)
 
-    - hosts: servers
-      become: yes
-      gather_facts: yes
-      roles:
-         - { role: jtprog.sysctl_tune }
-
-License
--------
-
-WTFPL
-
-Author Information
-------------------
+## Author Information
 
 WWW: https://jtprog.ru
