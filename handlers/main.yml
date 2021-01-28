@@ -1,0 +1,7 @@
+---
+- name: reload sysctl
+  raw: sudo /sbin/sysctl -p
+  become: true
+  become_user: root
+  tags:
+    - skip_ansible_lint

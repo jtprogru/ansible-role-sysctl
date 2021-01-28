@@ -6,5 +6,5 @@
     value: "{{ item.value }}"
     state: "{{ item.state }}"
     sysctl_set: true
-    reload: true
   with_items: "{{ sysctl_antiddos }}"
+  notify: reload sysctl
