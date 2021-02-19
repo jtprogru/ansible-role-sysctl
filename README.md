@@ -1,6 +1,6 @@
-# jtprog.sysctl
+# jtprogru.sysctl
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/jtprog/ansible-role-sysctl/CI?label=CI) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/jtprog/ansible-role-sysctl/Release?label=Release) ![GitHub](https://img.shields.io/github/license/jtprog/ansible-role-sysctl)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/jtprogru/ansible-role-sysctl/CI?label=CI) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/jtprogru/ansible-role-sysctl/Release?label=Release) ![GitHub](https://img.shields.io/github/license/jtprogru/ansible-role-sysctl)
 
 Base sysctl parameters for linux server
 
@@ -17,8 +17,9 @@ See `defaults`
   hosts: all
   become: yes
   gather_facts: yes
+
   roles:
-     - { role: jtprog.sysctl }
+     - jtprogru.sysctl
 ```
 
 ## License
