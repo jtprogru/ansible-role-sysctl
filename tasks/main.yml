@@ -1,10 +1,12 @@
 ---
 
 - name: Tune sysctl
-  sysctl:
-    name: "{{ item.name  }}"
+  ansible.posix.sysctl:
+    name: "{{ item.name }}"
     value: "{{ item.value }}"
     state: "{{ item.state }}"
     sysctl_set: true
-  with_items: "{{ sysctl_antiddos }}"
-  notify: reload sysctl
+  loop: "{{ sysctl_antiddos }}"
+  loop_control:
+    label: "{{ item.name }}"
+  notify: Reload sysctl

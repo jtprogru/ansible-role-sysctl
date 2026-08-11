@@ -1,7 +1,6 @@
 ---
-- name: reload sysctl
-  raw: sudo /sbin/sysctl -p
+
+- name: Reload sysctl
+  ansible.builtin.command: /sbin/sysctl -p
   become: true
-  become_user: root
-  tags:
-    - skip_ansible_lint
+  changed_when: false
