@@ -1,0 +1,49 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Read back the applied kernel parameters.
+      ansible.builtin.slurp:
+        src: "/proc/sys/net/ipv4/{{ item.path }}"
+      loop:
+        - {path: "ip_forward", expected: "0"}
+        - {path: "tcp_syncookies", expected: "1"}
+        - {path: "tcp_window_scaling", expected: "1"}
+        - {path: "ip_local_port_range", expected: "1024 65000"}
+      loop_control:
+        label: "{{ item.path }}"
+      register: sysctl_values
+
+    # /proc separates multi-value parameters with a tab, so whitespace is
+    # normalised before comparing.
+    - name: Assert that the parameters hold the configured values.
+      ansible.builtin.assert:
+        that:
+          - (item.content | b64decode).split() | join(' ') == item.item.expected
+        fail_msg: >-
+          net.ipv4.{{ item.item.path }} is
+          '{{ (item.content | b64decode).split() | join(" ") }}',
+          expected '{{ item.item.expected }}'
+      loop: "{{ sysctl_values.results }}"
+      loop_control:
+        label: "{{ item.item.path }}"
+
+    - name: Read back sysctl.conf.
+      ansible.builtin.slurp:
+        src: /etc/sysctl.conf
+      register: sysctl_conf
+
+    - name: Assert that the parameters are persisted in sysctl.conf.
+      ansible.builtin.assert:
+        that:
+          - "'net.ipv4.ip_forward=0' in sysctl_conf_lines"
+          - "'net.ipv4.tcp_syncookies=1' in sysctl_conf_lines"
+          - "'net.ipv4.tcp_window_scaling=1' in sysctl_conf_lines"
+          - "'net.ipv4.ip_local_port_range=1024 65000' in sysctl_conf_lines"
+        fail_msg: "sysctl.conf does not carry the configured parameters"
+      vars:
+        sysctl_conf_lines: >-
+          {{ (sysctl_conf.content | b64decode).splitlines() | map('trim') | list }}
