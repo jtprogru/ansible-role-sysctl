@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  namespace: jtprogru
   role_name: sysctl
   author: Mihael Savin
   description: Ansible role for configure kernel parameters with sysctl
@@ -7,18 +8,24 @@ galaxy_info:
 
   license: WTFPL
 
-  min_ansible_version: 2.9
+  min_ansible_version: "2.10"
 
   platforms:
     - name: Ubuntu
       versions:
-        - focal
+        - jammy
+        - noble
     - name: Debian
       versions:
-        - 10
+        - bullseye
+        - bookworm
 
   galaxy_tags:
-    - docker
-    - install
+    - sysctl
+    - kernel
+    - tuning
+    - networking
+    - security
+    - system
 
 dependencies: []

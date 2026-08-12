@@ -2,10 +2,14 @@
 extends: default
 
 rules:
+  braces:
+    max-spaces-inside: 1
+  comments:
+    min-spaces-from-content: 1
+  comments-indentation: false
   line-length:
     max: 200
     level: warning
-
-ignore: |
-  .github/stale.yml
-  .travis.yml
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true

@@ -5,11 +5,13 @@
 
   pre_tasks:
     - name: Update apt cache.
-      apt: update_cache=yes cache_valid_time=600
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 600
       when: ansible_os_family == 'Debian'
 
-    - name: Wait for systemd to complete initialization.  # noqa 303
-      command: systemctl is-system-running
+    - name: Wait for systemd to complete initialization.  # noqa: command-instead-of-module
+      ansible.builtin.command: systemctl is-system-running
       register: systemctl_status
       until: >
         'running' in systemctl_status.stdout or
@@ -21,4 +23,21 @@
       failed_when: systemctl_status.rc > 1
 
   roles:
+    # The default parameter set touches kernel knobs that are not exposed
+    # inside a container (fs.*, kernel.*, net.core.*), so the scenario runs
+    # against a small network-namespaced subset instead.
     - role: jtprogru.sysctl
+      vars:
+        sysctl_antiddos:
+          - name: "net.ipv4.ip_forward"
+            value: 0
+            state: present
+          - name: "net.ipv4.tcp_syncookies"
+            value: 1
+            state: present
+          - name: "net.ipv4.tcp_window_scaling"
+            value: 1
+            state: present
+          - name: "net.ipv4.ip_local_port_range"
+            value: "1024 65000"
+            state: present

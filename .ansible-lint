@@ -1,3 +1,4 @@
+---
 skip_list:
-  - '306'
-  - '106'
+  - risky-shell-pipe
+  - role-name

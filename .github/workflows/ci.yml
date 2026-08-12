@@ -5,6 +5,15 @@ name: CI
   push:
     branches:
       - master
+  schedule:
+    - cron: '0 6 * * 1'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 defaults:
   run:
@@ -17,12 +26,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the codebase.
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
         with:
           path: 'jtprogru.sysctl'
 
       - name: Set up Python 3.
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v7
         with:
           python-version: '3.x'
 
@@ -31,6 +40,9 @@ jobs:
 
       - name: Install test dependencies.
         run: pip3 install yamllint ansible-lint
+
+      - name: Install collection dependencies.
+        run: ansible-galaxy collection install -r requirements.yml
 
       - name: Lint code.
         run: |
@@ -41,19 +53,22 @@ jobs:
     name: Molecule
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         distro:
-          - ubuntu1804
-          - debian9
+          - ubuntu2204
+          - ubuntu2404
+          - debian11
+          - debian12
 
     steps:
       - name: Check out the codebase.
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
         with:
           path: 'jtprogru.sysctl'
 
       - name: Set up Python 3.
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v7
         with:
           python-version: '3.x'
 
@@ -61,7 +76,12 @@ jobs:
         run: pip3 install --upgrade pip
 
       - name: Install test dependencies.
-        run: pip3 install ansible molecule[docker] docker
+        run: pip3 install ansible-core molecule 'molecule-plugins[docker]' docker
+
+      - name: Install collection dependencies.
+        run: |
+          ansible-galaxy collection install -r requirements.yml
+          ansible-galaxy collection install community.docker
 
       - name: Run Molecule tests.
         run: molecule test

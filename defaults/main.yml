@@ -184,4 +184,3 @@ sysctl_antiddos:
   - name: "vm.swappiness"
     value: 5
     state: present
-
